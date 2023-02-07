@@ -1,0 +1,77 @@
+<style>
+  .slider-box {
+  	width:90%;
+    display:flex;
+    flex-flow:row wrap;
+  }
+  .slider-box > div {flex:1;border:1px solid black;border-radius:13px;padding:13px;box-sizing:border-box;}
+  .slider-box > div > * {display:block;}
+</style>
+<div class="slider-box">
+<div>
+  <input type="range" id="rotate" name="rotate"
+         min="-360" max="360" value="0">
+  <label for="rotate">Rotate : <span>0</span> deg</label>
+</div>
+<div>
+  <input type="range" id="scaleX" name="scaleX"
+         min="-2" max="2" step="0.1" value="1">
+  <label for="scaleX">ScaleX : <span>1</span> </label>
+</div>
+<div>
+  <input type="range" id="scaleY" name="scaleY"
+         min="-2" max="2" step="0.1" value="1">
+  <label for="scaleY">ScaleY : <span>1</span> </label>
+</div>
+<div>
+  <input type="range" id="translateX" name="translateX"
+         min="-200" max="200" value="0">
+  <label for="translateX">TranslateX : <span>0</span> px</label>
+</div>
+<div>
+  <input type="range" id="translateY" name="translateY"
+         min="-200" max="200" value="0">
+  <label for="translateY">TranslateY : <span>0</span> px</label>
+</div>
+<div>
+  <input type="range" id="skewX" name="skewX"
+         min="-360" max="360" value="0">
+  <label for="skewX">SkewX : <span>0</span> deg</label>
+</div>
+<div>
+  <input type="range" id="skewY" name="skewY"
+         min="-360" max="360" value="0">
+  <label for="skewY">SkewY : <span>0</span> deg</label>
+</div>
+<div>
+  <button onclick="transformOriginOfBox('top left')">top left</button>
+  <button onclick="transformOriginOfBox('top right')">top right</button>
+  <button onclick="transformOriginOfBox('center')">center</button>
+  <button onclick="transformOriginOfBox('bottom left')">bottom left</button>
+  <button onclick="transformOriginOfBox('bottom right')">bottom right</button>
+</div>
+</div>
+
+<div style="padding:10px;background-color:#efefef;">
+<div id="displayExampleBox" style="border:2px solid black;background-color:#ff5959;height:300px;width:300px;padding:20px;box-sizing:border-box;transition:transform 1s;transform-origin:150px 150px 0px;transform:scaleX(1)scaleY(1)rotate(0deg)skewX(0deg)skewY(0deg)translateX(0px)translateY(0px);">This is a box</div>
+</div>
+<div style="padding:10px;background-color:#efefef;color:#595959;font-size:11px;">To add this widget to your website click <button onclick="copyBackfyreCSSTransformWidget();">Get Backfyre Widget</button></div>
+
+<script>
+const box = document.getElementById("displayExampleBox");
+const suffixRecord = {"scaleX":"","scaleY":"","rotate":"deg","skewX":"deg","skewY":"deg","translateX":"px","translateY":"px"}
+Array.from(document.querySelectorAll(".slider-box > div > input")).forEach(input => {
+	input.addEventListener('change', ()=>{
+    	const {name, value} = event.target;
+        event.target.nextElementSibling.childNodes[1].innerHTML = value;
+        updateTransform(name, value+suffixRecord[name]);
+    });
+});
+function updateTransform(propName, value) {
+  console.log("hexrexdex");
+  let transformString = box.style.transform;
+  let propRegex = new RegExp(propName + "\\([^\\)]*\\)", "g");
+  box.style.transform = transformString.replace(propRegex, propName + "(" + value + ")");
+}
+function transformOriginOfBox(val) {box.style.transformOrigin = val;}
+</script>
